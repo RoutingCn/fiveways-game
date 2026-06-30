@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#24170f">
+  <title>下五道 · 泥土地上的老棋局</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">五</span>
+        <div>
+          <h1>下五道</h1>
+          <p>泥土地上的老棋局</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <label class="select-control">
+          <span>对局</span>
+          <select id="mode-select" aria-label="对局模式">
+            <option value="ai">人机对战</option>
+            <option value="local">本地双人</option>
+          </select>
+        </label>
+        <label class="select-control" id="difficulty-control">
+          <span>难度</span>
+          <select id="difficulty-select" aria-label="机器难度">
+            <option value="easy">简单</option>
+            <option value="normal" selected>普通</option>
+            <option value="hard">困难</option>
+          </select>
+        </label>
+      </div>
+    </header>
+
+    <section class="game-frame" aria-label="下五道棋局">
+      <div class="scorebar">
+        <div class="side side-wood">
+          <img src="./assets/wood-piece.png" alt="" aria-hidden="true">
+          <div><span id="wood-label">你 · 木桩</span><strong id="wood-count">5</strong></div>
+        </div>
+        <div class="turn-badge" id="turn-status" aria-live="polite">轮到你 · 木桩</div>
+        <div class="side side-stone">
+          <div><span id="stone-label">机器 · 石子</span><strong id="stone-count">5</strong></div>
+          <img src="./assets/stone-piece.png" alt="" aria-hidden="true">
+        </div>
+      </div>
+
+      <div class="board-wrap" id="board" aria-label="5乘5下五道棋盘">
+        <div class="board-shade" aria-hidden="true"></div>
+        <div id="point-layer" class="point-layer"></div>
+        <div id="piece-layer" class="piece-layer"></div>
+        <div id="thinking-cover" class="thinking-cover" hidden>
+          <span class="thinking-dot" aria-hidden="true"></span>
+          <span>机器正在琢磨这一步…</span>
+        </div>
+      </div>
+
+      <div class="controlbar">
+        <p class="hint" id="hint-text">点一枚木桩，再点亮起的落点</p>
+        <div class="buttons">
+          <button class="icon-button" id="undo-button" type="button" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7 4 12l5 5M5 12h8a6 6 0 1 1 0 12"/></svg>
+            悔棋
+          </button>
+          <button class="icon-button primary-button" id="reset-button" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M19 12a7 7 0 1 0-2 5"/></svg>
+            重新开局
+          </button>
+          <button class="icon-button" id="rules-button" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.4 2.4 0 1 1 3.4 2.2c-.9.4-1.2 1-1.2 1.8M12 17h.01"/></svg>
+            玩法
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="rules-dialog" class="game-dialog">
+    <form method="dialog">
+      <button class="dialog-close" value="close" aria-label="关闭规则">×</button>
+      <h2>下五道怎么玩</h2>
+      <ol>
+        <li><strong>走一步</strong><span>棋子每回合向上下左右的相邻空点移动一步。</span></li>
+        <li><strong>架新枪</strong><span>一步走成连续的“己、己、敌”，末端敌子会被吃掉。</span></li>
+        <li><strong>有根不吃</strong><span>若目标敌子后面紧跟同色棋子，就有根，不能吃。</span></li>
+        <li><strong>赢下棋局</strong><span>把对方吃到只剩一枚，或让对方无路可走。</span></li>
+      </ol>
+      <p class="dialog-note">已经架好的“死枪”不能重复吃子；连续 40 回合没有吃子则和棋。</p>
+      <button class="primary-button dialog-action" value="close">知道了</button>
+    </form>
+  </dialog>
+
+  <dialog id="result-dialog" class="game-dialog result-dialog">
+    <form method="dialog">
+      <span class="result-seal" aria-hidden="true">五</span>
+      <h2 id="result-title">这一局结束了</h2>
+      <p id="result-message"></p>
+      <button class="primary-button dialog-action" id="play-again-button" value="close">再来一局</button>
+    </form>
+  </dialog>
+
+  <script src="./js/app-standalone.js"></script>
+</body>
+</html>
